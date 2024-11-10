@@ -85,6 +85,5 @@ if __name__ == "__main__":
         layer_folder = extract_tar(path_to_tar)
         cves = scan_layer_folder(layer_folder)
         all_cves.extend(cves)
-        print(1)
 
-    print(1)
+    print(all_cves)
