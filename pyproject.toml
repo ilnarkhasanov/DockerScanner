@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "tool"
+version = "0.1.0"
+description = ""
+authors = ["ilnarkhasanov <4sitescarp@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyyaml = "^6.0.2"
+docker = "^7.1.0"
+cve-bin-tool = "^3.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
