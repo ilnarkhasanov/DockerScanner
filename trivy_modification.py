@@ -1,5 +1,6 @@
 import datetime
 import json
+import multiprocessing
 import os.path
 import subprocess
 import uuid
@@ -158,8 +159,95 @@ def aggregate_my_cves(result: list) -> list[CVE]:
     return cve_list
 
 
+def get_cyclonedx_sbom(image_name: str) -> str:
+    output_path = f"{uuid.uuid4()}.json"
+    result: str = subprocess.run(
+        ["syft", image_name, "-o", "cyclonedx-json"],
+        capture_output=True,        # Capture both stdout and stderr
+        text=True                   # Decode bytes to string
+    ).stdout.strip()
+    with open(output_path, "w") as txt:
+        txt.write(result)
+    return output_path
+
+
+def run_grype(image_name: str) -> str:
+    sbom_path: str = get_cyclonedx_sbom(image_name)
+
+    output_path = f"{uuid.uuid4()}.json"
+    result = subprocess.run([
+        "grype", f"sbom:{sbom_path}", "-o", "json"],
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    with open(output_path, "w") as txt:
+        txt.write(result)
+
+    return output_path
+
+
+def aggregate_grype_results(result_path: str):
+    cves = []
+
+    with open(result_path) as txt:
+        result = json.load(txt)
+
+    for match_ in result["matches"]:
+        vulnerability = match_["vulnerability"]
+        artifact = match_["artifact"]
+        cves.append(
+            CVE(
+                code=vulnerability["id"],
+                severity=vulnerability["severity"],
+                product=artifact["name"],
+                version=artifact["version"]
+            )
+        )
+
+    for match_ in result["ignoredMatches"]:
+        vulnerability = match_["vulnerability"]
+        artifact = match_["artifact"]
+        cves.append(
+            CVE(
+                code=vulnerability["id"],
+                severity=vulnerability["severity"],
+                product=artifact["name"],
+                version=artifact["version"]
+            )
+        )
+
+    return cves
+
+
+def find_cve_intersection(cve_list_1: list[CVE], cve_list_2: list[CVE]) -> list[CVE]:
+    cve_intersection: list[CVE] = []
+
+    for left_cve in cve_list_1:
+        for right_cve in cve_list_2:
+            if left_cve.code == right_cve.code:
+                cve_intersection.append(left_cve)
+
+    return cve_intersection
+
+
+def run_grype_without_sbom(image_name: str) -> str:
+    result = subprocess.run(
+        ["grype", image_name, "--scope", "all-layers", "-o", "json"],
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+    output_path = f"{uuid.uuid4()}.json"
+
+    with open(output_path, "w") as txt:
+        txt.write(result)
+
+    return output_path
+
+
 if __name__ == "__main__":
-    image_name = "brutaljesus/everyday-app:vuln-binary"
+    image_name = "brutaljesus/everynight-app:vuln-binary"
 
     print("Starting...")
 
@@ -178,6 +266,14 @@ if __name__ == "__main__":
             list(map(lambda cve: cve.__dict__, trivy_cve)),
             json_file
         )
+
+    print("Scanning by Grype without SBOM...")
+    grype_no_sbom_result = run_grype_without_sbom(image_name)
+    grype_no_sbom_cve = aggregate_grype_results(grype_no_sbom_result)
+
+    print("Scanning by Grype with SBOM...")
+    grype_result = run_grype(image_name)
+    grype_cve = aggregate_grype_results(grype_result)
 
     print("Custom scanning...")
 
@@ -205,22 +301,33 @@ if __name__ == "__main__":
 
     processes = []
 
-    my_cve = []
+    with multiprocessing.Manager() as manager:
+        my_cve = manager.list()
 
-    for layer in possibly_vulnerable_layers:
-        scan(layer, my_cve, folder_output_path)
+        # Create a shared list
+        for layer in possibly_vulnerable_layers:
+            process = multiprocessing.Process(
+                target=scan, args=(layer, my_cve, folder_output_path)
+            )
+            processes.append(process)
+            process.start()
 
-    my_cve = aggregate_my_cves(my_cve)
+        for process in processes:
+            process.join()
 
-    my_cve_output = f"{results_path}/tool.json"
+        my_cve = aggregate_my_cves(list(my_cve))
 
-    with open(my_cve_output, "w") as json_file:
-        json.dump(
-            list(map(lambda cve: cve.__dict__, my_cve)),
-            json_file
-        )
+        my_cve_output = f"{results_path}/tool.json"
+
+        with open(my_cve_output, "w") as json_file:
+            json.dump(
+                list(map(lambda cve: cve.__dict__, my_cve)),
+                json_file
+            )
 
     print(f"Image scanned: {image_name}")
     print(f"Amount of CVEs catched by Trivy: {len(trivy_cve)}")
+    print(f"Amount of CVEs catched by Grype (+ sbom): {len(grype_cve)}")
     print(f"Amount of CVEs catched by this tool: {len(my_cve)}")
+    print(f"Intersections with Grype (+ sbom) and CVE-bin-tool: {len(find_cve_intersection(grype_cve, my_cve))}")
     print(f"Results are available at: {results_path}")
