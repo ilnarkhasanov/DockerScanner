@@ -21,16 +21,17 @@ def aggregate_grype_results(result_path: str):
             )
         )
 
-    for match_ in result["ignoredMatches"]:
-        vulnerability = match_["vulnerability"]
-        artifact = match_["artifact"]
-        cves.append(
-            CVE(
-                code=vulnerability["id"],
-                severity=vulnerability["severity"],
-                product=artifact["name"],
-                version=artifact["version"]
+    if "ignoredMatches" in result:
+        for match_ in result["ignoredMatches"]:
+            vulnerability = match_["vulnerability"]
+            artifact = match_["artifact"]
+            cves.append(
+                CVE(
+                    code=vulnerability["id"],
+                    severity=vulnerability["severity"],
+                    product=artifact["name"],
+                    version=artifact["version"]
+                )
             )
-        )
 
     return cves
