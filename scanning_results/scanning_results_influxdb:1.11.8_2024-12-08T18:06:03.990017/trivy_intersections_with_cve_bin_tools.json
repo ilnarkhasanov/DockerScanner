@@ -1,0 +1,1 @@
+[{"code": "CVE-2024-38428", "severity": "CRITICAL", "product": "wget", "version": "1.21.3"}, {"code": "CVE-2024-9681", "severity": "MEDIUM", "product": "curl", "version": "7.88.1"}, {"code": "CVE-2024-9681", "severity": "MEDIUM", "product": "curl", "version": "7.88.1"}]

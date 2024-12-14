@@ -1,0 +1,1 @@
+# def run_trivy_without_sbom_entrypoint(image_name: str)

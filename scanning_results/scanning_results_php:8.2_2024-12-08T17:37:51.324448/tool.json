@@ -1,0 +1,1 @@
+[{"code": "CVE-2007-3205", "severity": "MEDIUM", "product": "php", "version": "8.2.26"}, {"code": "CVE-2023-7104", "severity": "HIGH", "product": "sqlite", "version": "3.40.1"}]
