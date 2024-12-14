@@ -1,0 +1,8 @@
+[{"code": "CVE-2024-9143",
+  "severity": "low",
+  "product": "libcrypto3",
+  "version": "3.1.7-r0"},
+ {"code": "CVE-2024-9143",
+  "severity": "low",
+  "product": "libssl3",
+  "version": "3.1.7-r0"}]

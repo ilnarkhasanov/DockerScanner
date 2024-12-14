@@ -1,0 +1,1 @@
+[{"code": "CVE-2024-9143", "severity": "Medium", "product": "pkg:apk/alpine/libssl3@3.3.2-r0?arch=aarch64&distro=alpine-3.20.3&upstream=openssl", "version": "3.3.2-r0"}]

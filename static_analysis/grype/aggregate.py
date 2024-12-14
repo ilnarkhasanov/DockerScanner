@@ -7,6 +7,12 @@ def aggregate_grype_results(result_path: str):
     cves = []
 
     with open(result_path) as txt:
+        a = txt.readlines()
+
+        if a == []:
+            return cves
+
+    with open(result_path) as txt:
         result = json.load(txt)
 
     for match_ in result["matches"]:
