@@ -10,7 +10,7 @@ from utils.filesystem_utils import read_json_file
 from utils.tar_utils import extract_tar, save_to_tar
 
 
-def scan_file(file_path: str) -> tuple[str, int]:
+def scan_folder(file_path: str) -> tuple[str, int]:
     output_json = f"./experiment/{uuid.uuid4()}.json"
     result = subprocess.run(
         ["cve-bin-tool", file_path, "--format", "json", "--output", output_json],
@@ -21,7 +21,7 @@ def scan_file(file_path: str) -> tuple[str, int]:
 
 def scan_layer_folder(folder_path: str):
     cves = []
-    report_path, return_code = scan_file(folder_path)
+    report_path, return_code = scan_folder(folder_path)
     result = read_json_file(report_path)
 
     for cve in result:
