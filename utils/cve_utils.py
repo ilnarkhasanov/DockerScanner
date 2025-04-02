@@ -13,3 +13,24 @@ def find_cve_intersection(
             cve_intersection.append(left_cve)
 
     return cve_intersection
+
+
+def find_unique_vulnerabilities(
+        static_analysis_tool_vulnerabilities: list[CVE],
+        sbom_vulnerabilities: list[CVE],
+) -> list[CVE]:
+    unique_vulnerabilities: list[CVE] = []
+
+    static_analysis_tool_vulnerabilities_codes: list[str] = list(map(
+        lambda vulnerability: vulnerability.code,
+        static_analysis_tool_vulnerabilities
+    ))
+
+    for sbom_vulnerability in sbom_vulnerabilities:
+        if (
+            sbom_vulnerability.code not in 
+            static_analysis_tool_vulnerabilities_codes
+        ):
+            unique_vulnerabilities.append(sbom_vulnerability)
+
+    return unique_vulnerabilities
