@@ -1,11 +1,11 @@
 import subprocess
 import uuid
 
-from sbom.cyclonedx.get_sbom import get_cyclonedx_sbom
+from sbom.cyclonedx.get_sbom import get_syft_cyclonedx_sbom
 
 
 def run_grype(image_name: str) -> str:
-    sbom_path: str = get_cyclonedx_sbom(image_name)
+    sbom_path: str = get_syft_cyclonedx_sbom(image_name)
 
     output_path = f"{uuid.uuid4()}.json"
     result = subprocess.run([

@@ -15,6 +15,9 @@ def get_possibly_vulnerable_layers(identified_instructions: list[dict, str]):
     for identified_instruction in identified_instructions:
         layer, layer_id = identified_instruction
 
+        if "created_by" not in layer:
+            continue
+
         instruction = layer["created_by"]
 
         if check_if_possibly_manually_installed_software(instruction):

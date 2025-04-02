@@ -2,7 +2,7 @@ import json
 import subprocess
 import uuid
 
-from sbom.cyclonedx.get_sbom import get_cyclonedx_sbom
+from sbom.cyclonedx.get_sbom import get_syft_cyclonedx_sbom
 from schemas.cve import CVE
 
 
@@ -18,15 +18,36 @@ def run_trivy(image_name: str) -> dict:
     return result
 
 
-def run_trivy_with_sbom(image_name: str) -> dict:
-    sbom_path: str = get_cyclonedx_sbom(image_name)
+def run_trivy_with_syft_sbom(image_name: str) -> dict:
+    sbom_path: str = get_syft_cyclonedx_sbom(image_name)
 
     output_path = f"./{uuid.uuid4()}.json"
     subprocess.run(
-        ["trivy", "sbom", sbom_path, "--format", "json", "--output", output_path],
+        ["trivy", "sbom", "--scanners", "vuln", sbom_path, "--format", "json", "--output", output_path],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
+    with open(output_path, "r") as file:
+        result = json.load(file)
+    return result
+
+
+def run_trivy_with_trivy_sbom(image_name: str) -> dict:
+    sbom_path = f"./{uuid.uuid4()}.json"
+    subprocess.run(
+        ["trivy", "image", "--format", "cyclonedx", "--scanners",
+         "vuln", "--output", sbom_path, image_name],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+    output_path = f"./{uuid.uuid4()}.json"
+    subprocess.run(
+        ["trivy", "sbom", "--format", "json", sbom_path, "-o", output_path],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
     with open(output_path, "r") as file:
         result = json.load(file)
     return result
