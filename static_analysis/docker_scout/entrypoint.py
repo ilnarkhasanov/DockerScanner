@@ -12,8 +12,16 @@ def docker_scout_no_sbom_entrypoint(image_name: str) -> list[CVE]:
 
 
 def docker_scout_sbom_entrypoint(image_name: str) -> list[CVE]:
-    print("Running Docker Scout with SBOM...")
-    sbom_path = get_cyclonedx_sbom(image_name)
+    print("Running Docker Scout with Syft SBOM...")
+    sbom_path = get_syft_cyclonedx_sbom(image_name)
+    docker_scout_results = run_docker_scout_with_sbom(sbom_path)
+    results: list[CVE] = aggregate_docker_scout_results(docker_scout_results)
+    return results
+
+
+def docker_scout_own_sbom_entrypoint(image_name: str) -> list[CVE]:
+    print("Running Docker Scout with Docker Scout SBOM generation...")
+    sbom_path = get_docker_scout_cyclonedx_sbom(image_name)
     docker_scout_results = run_docker_scout_with_sbom(sbom_path)
     results: list[CVE] = aggregate_docker_scout_results(docker_scout_results)
     return results
