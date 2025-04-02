@@ -1,7 +1,15 @@
-from sbom.cyclonedx.get_sbom import get_cyclonedx_sbom
+from sbom.cyclonedx.get_sbom import (
+    get_syft_cyclonedx_sbom,
+    get_docker_scout_cyclonedx_sbom,
+)
 from schemas.cve import CVE
-from static_analysis.docker_scout.aggregate import aggregate_docker_scout_results
-from static_analysis.docker_scout.run import run_docker_scout_without_sbom, run_docker_scout_with_sbom
+from static_analysis.docker_scout.aggregate import (
+    aggregate_docker_scout_results,
+)
+from static_analysis.docker_scout.run import (
+    run_docker_scout_without_sbom,
+    run_docker_scout_with_sbom,
+)
 
 
 def docker_scout_no_sbom_entrypoint(image_name: str) -> list[CVE]:
