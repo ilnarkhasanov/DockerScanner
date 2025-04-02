@@ -28,7 +28,7 @@ def run_snyk_without_sbom(image_name: str, arm64: bool) -> dict:
 
 
 def run_snyk_with_sbom(image_name: str):
-    sbom_path: str = get_cyclonedx_sbom(image_name)
+    sbom_path: str = get_syft_cyclonedx_sbom(image_name)
     result = subprocess.run(
         ["snyk", "sbom", "test", "--experimental", f"--file={sbom_path}", "--json"],
         capture_output=True,
