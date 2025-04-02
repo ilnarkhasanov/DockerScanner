@@ -4,7 +4,7 @@ import subprocess
 from sbom.cyclonedx.get_sbom import get_syft_cyclonedx_sbom
 
 
-def run_snyk_without_sbom(image_name: str, arm64: bool) -> dict:
+def run_snyk_without_sbom(image_name: str) -> dict:
     result = subprocess.run(
         ["snyk", "container", "test", "--json", image_name, "--platform=linux/amd64"],
         capture_output=True,
