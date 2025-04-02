@@ -2,7 +2,7 @@ import subprocess
 import uuid
 
 
-def get_cyclonedx_sbom(image_name: str) -> str:
+def get_syft_cyclonedx_sbom(image_name: str) -> str:
     output_path = f"{uuid.uuid4()}.json"
 
     if image_name == "registry:2":
