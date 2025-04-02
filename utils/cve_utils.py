@@ -28,7 +28,7 @@ def find_unique_vulnerabilities(
 
     for sbom_vulnerability in sbom_vulnerabilities:
         if (
-            sbom_vulnerability.code not in 
+            sbom_vulnerability.code not in
             static_analysis_tool_vulnerabilities_codes
         ):
             unique_vulnerabilities.append(sbom_vulnerability)
