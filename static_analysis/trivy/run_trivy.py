@@ -7,6 +7,8 @@ from schemas.cve import CVE
 
 
 def run_trivy(image_name: str) -> dict:
+    print("Trivy scanning...")
+
     output_path = f"./{uuid.uuid4()}.json"
     subprocess.run(
         ["trivy", "image", image_name, "--format", "json", "--output", output_path],
@@ -19,6 +21,8 @@ def run_trivy(image_name: str) -> dict:
 
 
 def run_trivy_with_syft_sbom(image_name: str) -> dict:
+    print("Trivy SBOM scanning...")
+
     sbom_path: str = get_syft_cyclonedx_sbom(image_name)
 
     output_path = f"./{uuid.uuid4()}.json"

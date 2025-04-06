@@ -5,6 +5,8 @@ from sbom.cyclonedx.get_sbom import get_syft_cyclonedx_sbom
 
 
 def run_grype(image_name: str) -> str:
+    print("Grype SBOM running...")
+
     sbom_path: str = get_syft_cyclonedx_sbom(image_name)
 
     output_path = f"{uuid.uuid4()}.json"
@@ -21,6 +23,8 @@ def run_grype(image_name: str) -> str:
 
 
 def run_grype_without_sbom(image_name: str) -> str:
+    print("Grype running...")
+
     result = subprocess.run(
         ["grype", image_name, "--scope", "all-layers", "-o", "json"],
         capture_output=True,
