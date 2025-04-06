@@ -13,14 +13,14 @@ from static_analysis.docker_scout.run import (
 
 
 def docker_scout_no_sbom_entrypoint(image_name: str) -> list[CVE]:
-    print("Running Docker Scout without SBOM...")
+    print("Docker Scout scanning...")
     docker_scout_results = run_docker_scout_without_sbom(image_name)
     results: list[CVE] = aggregate_docker_scout_results(docker_scout_results)
     return results
 
 
 def docker_scout_sbom_entrypoint(image_name: str) -> list[CVE]:
-    print("Running Docker Scout with Syft SBOM...")
+    print("Docker Scout SBOM scanning...")
     sbom_path = get_syft_cyclonedx_sbom(image_name)
     docker_scout_results = run_docker_scout_with_sbom(sbom_path)
     results: list[CVE] = aggregate_docker_scout_results(docker_scout_results)

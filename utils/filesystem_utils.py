@@ -1,22 +1,51 @@
+from dataclasses import asdict
+from datetime import datetime
 import json
 import os
-import typing
 
-
-def get_all_paths_in_folder(folder_path) -> list[str]:
-    all_paths: list[str] = []
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            full_path: str = typing.cast(
-                os.path.join(root, file),
-                str,
-            )
-            assert type(full_path) is str
-            all_paths.append(full_path)
-    return all_paths
+from schemas.cve import CVE
 
 
 def read_json_file(json_output_path: str):
     with open(json_output_path, "r") as file:
         data = json.load(file)
     return data
+
+
+def write_cves_to_json_file(
+    cves: list[CVE],
+    image_name: str,
+    tool_name: str
+) -> str:
+    raw_cves: list[dict] = list(map(lambda cve: asdict(cve), cves))
+
+    formatted_image_name = image_name.replace("/", "_")
+
+    try:
+        os.mkdir("reports")
+    except FileExistsError:
+        pass
+
+    try:
+        os.mkdir(f"reports/{formatted_image_name}")
+    except FileExistsError:
+        pass
+
+    try:
+        os.mkdir(f"reports/{formatted_image_name}/{tool_name}")
+    except FileExistsError:
+        pass
+
+    path: str = (
+        "reports/"
+        f"{formatted_image_name}/"
+        f"{tool_name}/"
+        f"{datetime.now().isoformat()}.json"
+    )
+
+    with open(path, "w") as f:
+        json.dump(raw_cves, f)
+
+    print(f"Results are saved in {path}")
+
+    return path
