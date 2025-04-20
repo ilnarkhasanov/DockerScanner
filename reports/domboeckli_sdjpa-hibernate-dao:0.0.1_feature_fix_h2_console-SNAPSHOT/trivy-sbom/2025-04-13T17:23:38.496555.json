@@ -1,0 +1,1 @@
+[{"code": "CVE-2024-41996", "severity": "LOW", "product": "openssl", "version": "3.0.2-0ubuntu1.19"}, {"code": "CVE-2025-22871", "severity": "MEDIUM", "product": "stdlib", "version": "1.24.1"}]
