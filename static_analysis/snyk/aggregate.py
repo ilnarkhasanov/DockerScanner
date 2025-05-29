@@ -8,13 +8,20 @@ def aggregate_snyk_results(results: dict) -> list[CVE]:
         return cve_list
 
     for vulnerability in results["vulnerabilities"]:
-        cve_list.append(
-            CVE(
-                code=vulnerability["identifiers"]["CVE"][0],
-                severity=vulnerability["severity"],
-                product=vulnerability["name"],
-                version=vulnerability["version"],
+        for identifier, value in vulnerability["identifiers"].items():
+            if value != []:
+                code = value[0]
+
+        try:
+            cve_list.append(
+                CVE(
+                    code=code,
+                    severity=vulnerability["severity"],
+                    product=vulnerability["name"],
+                    version=vulnerability["version"],
+                )
             )
-        )
+        except Exception:
+            assert False, vulnerability
 
     return cve_list

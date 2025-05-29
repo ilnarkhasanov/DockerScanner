@@ -15,6 +15,7 @@ from static_analysis.snyk.entrypoint import (
 )
 from static_analysis.trivy.entrypoint import (
     trivy_entrypoint,
+    trivy_own_sbom_entrypoint,
     trivy_sbom_entrypoint
 )
 from utils.filesystem_utils import write_cves_to_json_file
@@ -37,9 +38,13 @@ write_cves_to_json_file(
 trivy_cve: list[CVE] = trivy_entrypoint(image_name)
 write_cves_to_json_file(trivy_cve, image_name, "trivy")
 
-# Scan Trivy SBOM
+# Scan Trivy Syft SBOM
 trivy_sbom_cve: list[CVE] = trivy_sbom_entrypoint(image_name)
 write_cves_to_json_file(trivy_sbom_cve, image_name, "trivy-sbom")
+
+# Scan Trivy own SBOM
+trivy_own_sbom_cve: list[CVE] = trivy_own_sbom_entrypoint(image_name)
+write_cves_to_json_file(trivy_own_sbom_cve, image_name, "trivy-own-sbom")
 
 # Scan Grype
 grype_cve: list[CVE] = grype_entrypoint(image_name)
