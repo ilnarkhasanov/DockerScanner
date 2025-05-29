@@ -1,0 +1,1 @@
+[{"code": "CVE-2016-2781", "severity": "LOW", "product": "coreutils", "version": "8.30-3ubuntu2"}, {"code": "CVE-2024-2236", "severity": "LOW", "product": "libgcrypt20", "version": "1.8.5-5ubuntu1.1"}, {"code": "CVE-2024-12133", "severity": "MEDIUM", "product": "libtasn1-6", "version": "4.16.0-2"}]

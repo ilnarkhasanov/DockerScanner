@@ -1,0 +1,1 @@
+[{"code": "CVE-2025-22870", "severity": "Medium", "product": "pkg:golang/golang.org/x/net@0.33.0", "version": "0.33.0"}, {"code": "CVE-2025-22872", "severity": "Medium", "product": "pkg:golang/golang.org/x/net@0.33.0", "version": "0.33.0"}, {"code": "CVE-2025-22871", "severity": "Critical", "product": "pkg:golang/stdlib@1.24.0", "version": "1.24.0"}]

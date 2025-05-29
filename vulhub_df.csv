@@ -1,0 +1,11 @@
+,Image,CVE-bin-tool,Docker Scout,Docker Scout SBOM,Grype,Grype SBOM,Snyk,Trivy,Trivy SBOM
+0,vulhub_activemq:5.17.3,184,182,182,433,433,659,404,117
+1,vulhub_adminer:4.7.8,106,212,212,3658,3658,1587,3666,178
+2,vulhub_apisix:2.9,790,98,68,1207,1207,1201,1208,1208
+3,vulhub_appweb:7.0.1,339,0,0,859,859,767,498,37
+4,vulhub_aria2:1.18.8,276,0,0,468,468,1222,309,73
+5,vulhub_bash:4.3.0-with-httpd,231,0,0,464,464,761,258,59
+6,vulhub_cacti:1.2.22,153,262,383,3900,3900,1985,3909,182
+7,vulhub_celery:3.1.23,331,9,9,521,521,962,311,65
+8,vulhub_cups-browsed:2.0.1,138,119,119,2024,2024,895,2005,44
+9,vulhub_git:2.12.2-with-openssh,221,0,0,482,482,1096,560,68

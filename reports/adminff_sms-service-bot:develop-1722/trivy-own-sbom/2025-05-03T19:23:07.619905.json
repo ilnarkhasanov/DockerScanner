@@ -1,0 +1,1 @@
+[{"code": "CVE-2025-29087", "severity": "HIGH", "product": "sqlite-libs", "version": "3.48.0-r0"}, {"code": "CVE-2024-42367", "severity": "MEDIUM", "product": "aiohttp", "version": "3.9.5"}, {"code": "CVE-2024-52304", "severity": "MEDIUM", "product": "aiohttp", "version": "3.9.5"}, {"code": "CVE-2024-6345", "severity": "HIGH", "product": "setuptools", "version": "65.5.1"}]

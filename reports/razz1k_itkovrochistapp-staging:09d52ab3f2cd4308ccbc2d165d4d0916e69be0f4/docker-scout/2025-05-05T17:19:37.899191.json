@@ -1,0 +1,1 @@
+[{"code": "CVE-2021-40926", "severity": "Medium", "product": "pkg:composer/james-heinrich/getid3@1.9.23", "version": "1.9.23"}, {"code": "CVE-2024-56406", "severity": "High", "product": "pkg:apk/alpine/perl@5.38.3-r0?os_name=alpine&os_version=3.19", "version": "5.38.3-r0"}]
