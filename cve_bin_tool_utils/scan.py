@@ -22,7 +22,11 @@ def scan_folder(file_path: str) -> tuple[str, int]:
 def scan_layer_folder(folder_path: str):
     cves = []
     report_path, return_code = scan_folder(folder_path)
-    result = read_json_file(report_path)
+    
+    try:
+        result = read_json_file(report_path)
+    except FileNotFoundError:
+        return []
 
     for cve in result:
         cves.append(cve)
