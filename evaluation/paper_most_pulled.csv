@@ -1,0 +1,21 @@
+,Image,Trivy,CVE-bin-tool,Unique CVE-bin-tool
+0,memcached:1.6.32,80,0,0
+1,tensorflow_tensorflow:nightly,1762,88,87
+2,nginx:1.27,159,67,55
+3,busybox:1.37,0,0,0
+4,alpine:3.20,0,4,4
+5,ubuntu:25.04,0,34,34
+6,redis:7.4,138,52,8
+7,postgres:16.6,224,50,6
+8,python:3.13,1565,112,97
+9,node:23,1530,111,96
+10,httpd:2.4.62,135,18,17
+11,mongo:8.0,110,85,40
+12,rabbitmq:4,28,38,37
+13,mariadb:11,115,85,40
+14,registry:2,19,14,8
+15,debian:12,80,0,0
+16,php:8.2,1134,3,3
+17,centos:centos7,1208,790,415
+18,influxdb:1.11.8,152,46,41
+19,consul:1.15.4,43,37,24

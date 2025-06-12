@@ -1,0 +1,11 @@
+,Image,Trivy,CVE-bin-tool,Unique CVE-bin-tool
+0,vulhub_activemq:5.17.3,404,184,85
+1,vulhub_adminer:4.7.8,3666,106,72
+2,vulhub_apisix:2.9,1208,790,415
+3,vulhub_appweb:7.0.1,498,339,294
+4,vulhub_aria2:1.18.8,309,276,231
+5,vulhub_bash:4.3.0-with-httpd,258,231,196
+6,vulhub_cacti:1.2.22,3909,153,79
+7,vulhub_celery:3.1.23,311,331,273
+8,vulhub_cups-browsed:2.0.1,2005,138,94
+9,vulhub_git:2.12.2-with-openssh,560,221,105
